@@ -1,10 +1,7 @@
 package com.infoshare;
 
-import java.io.FileNotFoundException;
-
-
 public class StringTester {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
 
         String fullText = "Manifesto for Agile Software Development\n" +
                 "\n" +
@@ -24,11 +21,14 @@ public class StringTester {
 
         StringUtils stringUtils = new StringUtils();
 
-        String [] lines = stringUtils.getLines(fullText);  // zad.1 getLines
+        String[] lines = stringUtils.getLines(fullText);                    // zad.1 getLines
         System.out.println(lines[0]);
 
-        String [] words = stringUtils.getWords(lines[0]);  // zad.2 getWords
-        System.out.println(words[0]);
+        String[] words = stringUtils.getWords(lines[5]);                    // zad.2 getWords
+        System.out.println(words[8]);
+
+        String [] wordsWithoutSpecialSings = stringUtils.replaceSign(words);  //zad. 2 a) Remove dot and semicolon
+        System.out.println(wordsWithoutSpecialSings[8]);
 
     }
 }
