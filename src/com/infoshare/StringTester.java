@@ -24,9 +24,8 @@ public class StringTester {
 
         StringUtils stringUtils = new StringUtils();
 
-        System.out.println("counter lines: " + stringUtils.countLinesFromFile(StringUtils.FILE_NAME));
-        String [] linesABC = stringUtils.getLines(fullText);
-        System.out.println("first line: " + linesABC[0]);
+        String [] lines = stringUtils.getLines(fullText);
+        System.out.println(lines[0]);
 
     }
 }
