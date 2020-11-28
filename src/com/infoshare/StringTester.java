@@ -24,8 +24,11 @@ public class StringTester {
 
         StringUtils stringUtils = new StringUtils();
 
-        String [] lines = stringUtils.getLines(fullText);
+        String [] lines = stringUtils.getLines(fullText);  // zad.1 getLines
         System.out.println(lines[0]);
+
+        String [] words = stringUtils.getWords(lines[0]);  // zad.2 getWords
+        System.out.println(words[0]);
 
     }
 }
