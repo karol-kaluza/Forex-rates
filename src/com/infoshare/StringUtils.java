@@ -1,8 +1,6 @@
 package com.infoshare;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class StringUtils {
@@ -66,24 +64,4 @@ public class StringUtils {
             }
         }
     }
-
-//    public ArrayList<Character> getMostFrequencyChar (String word){           // TODO
-//        Map<Character, Integer> mapCharsFrequency = new HashMap<>();
-//        List<Character> mostFreqChars = new ArrayList<>();
-//        char mostFreqChar = word.charAt(0);
-//        int mostFreqValue = 1;
-//        for (int i = 0; i < word.length(); i++) {
-//            if (mapCharsFrequency.containsKey(word.charAt(i))) {
-//                mapCharsFrequency.put(word.charAt(i), +1);
-//            } else {
-//                mapCharsFrequency.put(word.charAt(i), 1);
-//            }
-//            if (mapCharsFrequency.get(word.charAt(i)) >= mostFreqValue) {
-//                mostFreqChars.add(word.charAt(i));
-//            } else {
-//                mostFreqChars.add(mostFreqChar);
-//            }
-//        }
-//        return (ArrayList<Character>) mostFreqChars;
-//    }
 }
