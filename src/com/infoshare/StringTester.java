@@ -19,7 +19,7 @@ public class StringTester {
         System.out.println("Get words[5]: " + words[5]);
 
         Map <String, Integer> frequencyOfWords = stringUtils.getWordFrequency(fullText);
-        String wordToCheck = "development";
+        String wordToCheck = "the";
         System.out.println("Number of appearance word \"" + wordToCheck + "\": " + frequencyOfWords.get(wordToCheck));  // ex. map of words frequency
 
         String word = words[4];
@@ -33,5 +33,6 @@ public class StringTester {
         System.out.println("Concatenation: " + stringUtils.concatenate(word, words[0]));                                // ex. concatenation
 
         System.out.print("Every third symbol from \"development\": ");stringUtils.printEveryThirdSymbol(word);          // ex. print every third symbol
+
     }
 }
