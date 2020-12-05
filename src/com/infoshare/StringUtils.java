@@ -5,22 +5,21 @@ import java.util.Map;
 
 public class StringUtils {
 
-    public String[] getLines(String fullText) {
-        String[] lines = fullText.split("\n");
-        return lines;
+    public String[] getLines(String text) {
+        return text.split("\n");
     }
 
-    public String[] getWords(String fullText) {
-        String[] words = fullText.toLowerCase()
+    public String[] getWords(String text) {
+        String[] words = text.toLowerCase()
                 .replaceAll("[.,]", "")
                 .replaceAll("\n+", " ")
                 .split(" ");
         return words;
     }
 
-    public Map<String, Integer> getWordFrequency(String fullText) {
+    public Map<String, Integer> getWordFrequency(String text) {
         Map<String, Integer> frequencyOfWords = new HashMap<>();
-        String[] words = getWords(fullText);
+        String[] words = getWords(text);
         for (String word : words) {
             if (frequencyOfWords.containsKey(word)) {
                 frequencyOfWords.put(word, frequencyOfWords.get(word) + 1);
@@ -46,15 +45,12 @@ public class StringUtils {
     }
 
     public String reverseWord(String word) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = word.length() - 1; i >= 0; i--) {
-            builder.append(word.charAt(i));
-        }
-        return builder.toString();
+        StringBuilder builder = new StringBuilder(word);;
+        return builder.reverse().toString();
     }
 
     public String concatenate(String firstWord, String secondWord) {
-        return firstWord + " " + secondWord;
+        return firstWord.concat(secondWord);
     }
 
     public void printEveryThirdSymbol(String word) {

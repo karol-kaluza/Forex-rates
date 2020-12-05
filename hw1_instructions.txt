@@ -1,0 +1,36 @@
+Zadanie 1 (polaga na tym zeby utworzyc klasu wspomagajacu prace ze stringami)
+- Spojzyc na plik TestFile.txt, na nim będemy testować.
+- Utworzyć paket com.infoshare
+
+- W tym pakiecie utworzyć class StringUtils. W nim muszą być następne metody
+  - metoda która dostaje String i zwraca tablice Stringów. W tablice muszą byc wszyscy linii ze Stringu ktorego dostajemy (getLines)
+  - metoda ktora dostaje String i zwraca tablice Stringów. W tablice muszą byc wszyscy słowa ze Stringu ktorego dostajemy (getWords)
+    - Slowa musza nie miec symbolów . i ,
+    - wszyscy slowa muszą byc z malych liter - a-z
+  - (opcionalnie) - utworzyć metodu, ktora zmoze robic to samo co pierwsze dwie (hint: musze dostawac 2 parametery)
+  - metoda ktora dostaje String i zwraca Map<String, Integer>, gdzie kluczami musza byc slowa w Stringu ktory dostajemy, value - illosć tych slow w Stringu ktory dostajemy
+  - metoda ktora dostaje String i zwraca String tylko bez pierwszego i ostatniego symbolów
+  - metoda ktora dostaje String i char, i zwraca int. Ta metoda musi liczyc ile tych symbolów bylo w Stringu
+  - metoda ktora dostaje String i zwraca String. musi reversować String ktory dostajemy. Przyklad: asdf -> fdsa
+  - metoda ktora dostaje 2 Stringa i zwraca String jako konkatenacja tech dwóh stringow
+  - (opcionalnie) utworzyć metodu ktora dostaje String i drukuje kazdy trzeci symbol z tego Stringa
+  - (opcionalnie) utworzyc motodu ktora dostaje String i zwraca char. Ten char musi byc najwieksz czesto uzywanym charem w stringu
+
+W tym samym pakiecie utworzyć class StringTester
+  - Utworzyc w StringTester classu metodu public static void main(String[] args) zeby mozna bylo odpalac
+  - W metodie main utworzyć instancje StringUtils
+  - W tej samej metodie otworzyc plik TestFile.txt i zapisac jego do Stringu
+  - Wydrukowac (przez System.out.println) minimum jedne uzywanie kazdej z metod classy StringUtils
+
+
+Zadanie 2 (utworzyc system klasyfikacji wagi, my podajemy wagu, system odpowiada czy to jest LIGHT, MEDIUM, HEAVY)
+  - W tym samym pakiecie utworzyc enum WeightType z opcjami LIGHT, MEDIUM, HEAVY
+  - Utworzyc clasu WeightClassifier
+  - W clasie WeightClassifier utworzyc metodu classify, ktora dostaje inta - wage, i zwraca LIGHT jesli waga jest mniej niz 50, MEDIUM jesli 50 <= waga <= 100, i HEAVY jesli waga jest powyszej 100
+  - (opcionalnie) utworzyc plik weight.properties. Utworzyc w tym pliku property - lightLimit i mediumLimit. Utworzyc taku samu metodu jak opisane powyszej, tylko te limity, 50 i 100, wziac z pliku weight.properties
+  - Utworzyc class WeightClassifierTester, w ktorym utworzyc metodu main dla odpalenia
+  - W metodie main:
+    - Utworzyc instancje WeightClassifier
+    - Zaproponowac useru (prez konsole) zrobic input weight
+    - Dostac z konsoli int i dostac wynik klasyfikacji wagi przez WeightClassifier
+    - Wydrukowac wynik na konsole razem z jakims smiecznym komentarzem (jakosc smiecznego komentarza jest opcionalna :))

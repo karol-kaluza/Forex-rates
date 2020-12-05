@@ -9,8 +9,7 @@ public class WightClassifierTest {
         System.out.println("What is your weight? ");
         Scanner scanner = new Scanner(System.in);
         int userWeight = scanner.nextInt();
-//        System.out.println("Your weight is: " + classifier.classify(userWeight) + classifier.classify(userWeight).getDescription());
-        System.out.println("Your weight is: " + classifier.classifyByProperties(userWeight) +      //using method classifyByProperties
+        System.out.println("Your weight is: " + classifier.classifyByProperties(userWeight) +
                 classifier.classifyByProperties(userWeight).getDescription());
     }
 }
