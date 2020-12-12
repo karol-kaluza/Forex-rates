@@ -43,8 +43,10 @@ public class GenericLinkedList<T> {
             for (int i = 0; i < index; i++) {
                 current = current.getNext();
             }
+            return (T) current.getValue();
+        }else {
+            throw new IndexOutOfBoundsException("index bigger than size");
         }
-        return (T) current.getValue();
     }
 
     public int getSize() {
