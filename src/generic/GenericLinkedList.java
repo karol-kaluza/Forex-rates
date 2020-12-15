@@ -3,7 +3,7 @@ package generic;
 public class GenericLinkedList<T> {
 
     private Node<T> firstNode = null;
-    private Node current = null;
+    private Node<T> current = null;
     private int size = 0;
 
     public GenericLinkedList() {
@@ -26,7 +26,7 @@ public class GenericLinkedList<T> {
     public T next() {
         if (hasNext()) {
             current = current.getNext();
-            return (T) current.getValue();
+            return current.getValue();
         } else {
             System.out.println("There is no next");
             return null;

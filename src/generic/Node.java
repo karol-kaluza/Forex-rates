@@ -1,8 +1,8 @@
 package generic;
 
 public class Node<T> {
-    private Node next;
-    T value;
+    private Node<T> next;
+    private T value;
 
     public Node(T value) {
         this.value = value;
