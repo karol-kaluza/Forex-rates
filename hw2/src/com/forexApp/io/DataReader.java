@@ -1,91 +1,94 @@
 package com.forexApp.io;
 
-import com.forexApp.model.Factory;
+import com.forexApp.commands.Commands;
 import com.forexApp.model.ForexRecord;
+import com.forexApp.service.ForexService;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class DataReader {
 
     public static final String FILE_NAME = "DAT_MT_EURUSD_M1_202011.csv";
     private final Scanner scanner = new Scanner(System.in);
-    private BufferedReader br;
-    private final Factory factory = new Factory();
+    private final ForexService forexService = new ForexService();
     private final Printer printer = new Printer();
+    private final Commands commands = new Commands();
+    private BufferedReader br;
+    private String userInput;
 
     public void readFileName() throws IOException {
         boolean isExist;
-        System.out.println("enter a filename: ");
-        String userInput = scanner.nextLine();
+        System.out.println("Type a filename: ");
+        userInput = scanner.nextLine();
         do {
             if (userInput.equals(FILE_NAME)) {
+                readFile();
                 isExist = true;
-                getCommand();
             } else {
-                System.out.println("that file not exist, try again: ");
+                tryAgain();
                 userInput = scanner.nextLine();
                 isExist = false;
             }
         } while (!isExist);
     }
 
-    private void getCommand() throws IOException {
-        printer.showMenu();
-        String choice = askAboutCommand();
-        switch (choice) {
-            case "1": {
-                String date = getDate();
-                System.out.println("wyświetl datę");
-            }
-            break;
-            case "2": {
-                System.out.println("2");
-            }
-            break;
-            case "3": {
-                System.out.println("3");
-            }
-            break;
-            case "4": {
-                System.out.println("4");
-            }
-            break;
-            case "5": {
-                System.out.println("5");
-            }
-            break;
-            default: {
-                System.out.println("wrong choice");
-                getCommand();
-            }
-        }
-    }
-
-    private String getDate() {
-        System.out.println("Enter date and hour: ");
-        return scanner.nextLine();
-    }
-
-    private String askAboutCommand() {
-        return scanner.nextLine();
-    }
-
-
-    public void readFile () throws IOException {
+    private void readFile() throws IOException {
         br = new BufferedReader(new FileReader(FILE_NAME));
         br.readLine();
         readContentFormFile();
     }
 
-    public void readContentFormFile() throws IOException {
+    private void readContentFormFile() throws IOException {
         String singleLine;
-        while ((singleLine = br.readLine()) != null){
-            String [] content = singleLine.split(",");
-            ForexRecord forexRecord = factory.createForexRecord(content);
-            factory.getForexRecords().add(forexRecord);
+        while ((singleLine = br.readLine()) != null) {
+            String[] content = singleLine.split(",");
+            ForexRecord forexRecord = forexService.createForexRecord(content);
+            forexService.getForexRecordList().add(forexRecord);
+        }
+    }
+
+    public void tryAgain() {
+        System.out.println("File: " + userInput + " doesn't exist. \n" +
+                "Existing file: \"DAT_MT_EURUSD_M1_202011.csv\". Type filename again: ");
+    }
+
+    public void getUserChoice() {
+        String userInput = scanner.nextLine().toLowerCase();
+        if (userInput.substring(0, 8).equals("get high")) {
+            System.out.println("you typed get high");
+            LocalDate date = forexService.convertToLocalDate(userInput.substring(9, 19));
+            System.out.println("datum: " + date);
+            commands.getHighByDay(forexService.getForexRecordList(), date);
+
+        } else {
+            System.out.println("you put something different than get high 2020.11.05");
+            System.out.println(userInput.substring(0, 8));
+        }
+    }
+
+    public void readUsersCommand(String userInput) {
+        String[] userInputArray = userInput.split("\\s+");
+        switch (userInputArray[0]) {
+            case "get" -> commands.manageGet(userInputArray);
+            case "volatility" -> commands.manageVolatility(userInputArray);
+            case "most_volatile_day" -> commands.mostVolatileDay();
+            case "most_volatile_hour" -> commands.mostVolatileHour();
+            case "average_minutely_volatility" -> commands.averageMinutelyVolatility();
+            case "average_hourly_volatility" -> commands.averageHourlyVolatility();
+            case "average_daily_volatility" -> commands.averageDailyVolatility();
+            case "commands" -> printer.showCommandsList();
+            case "example" -> printer.showExampleCommands();
+            case "exit" -> printer.exitCommand();
+            case "test" -> forexService.getForexRecordList().stream().limit(3).forEach(System.out::println);
+            default -> printer.showWarningWrongCommand();
         }
     }
 }
+
+
+
+

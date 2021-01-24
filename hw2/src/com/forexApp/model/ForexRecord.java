@@ -3,6 +3,9 @@ package com.forexApp.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class ForexRecord {
 
@@ -59,5 +62,34 @@ public class ForexRecord {
 
     public void setClose(BigDecimal close) {
         Close = close;
+    }
+
+    @Override
+    public String toString() {
+        return "ForexRecord: " +
+                "date=" + date +
+                ", time=" + time +
+                ", Open=" + Open +
+                ", High=" + High +
+                ", Low=" + Low +
+                ", Close=" + Close;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ForexRecord that = (ForexRecord) o;
+        return Objects.equals(date, that.date) &&
+                Objects.equals(time, that.time) &&
+                Objects.equals(Open, that.Open) &&
+                Objects.equals(High, that.High) &&
+                Objects.equals(Low, that.Low) &&
+                Objects.equals(Close, that.Close);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, time, Open, High, Low, Close);
     }
 }
