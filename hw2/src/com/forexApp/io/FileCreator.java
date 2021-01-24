@@ -1,10 +1,17 @@
 package com.forexApp.io;
 
+import com.forexApp.repository.CommandsRepository;
+import com.forexApp.service.AppControl;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 public class FileCreator {
+
+    private final LogWriter logWriter = new LogWriter();
+    private final CommandsRepository commandsRepository = new CommandsRepository();
 
     public void createLogDirectory() {
         String dirName = "Logs";
@@ -16,7 +23,7 @@ public class FileCreator {
     }
 
     public void createLogFile() throws IOException {
-        int counter = 1;
+        byte counter = 1;
         String fileName = "";
         File logFile = new File(fileName);
         boolean isLogFileExists = true;
@@ -27,6 +34,7 @@ public class FileCreator {
             isLogFileExists = logFile.exists();
         }
         logFile.createNewFile();
+        logWriter.saveLog(logFile, commandsRepository.getCommandsList() );
     }
 }
 
