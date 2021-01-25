@@ -1,12 +1,9 @@
 package com.forexApp.io;
 
 import com.forexApp.repository.CommandsRepository;
-import com.forexApp.service.AppControl;
-
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 
 public class FileCreator {
 

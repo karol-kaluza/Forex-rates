@@ -1,13 +1,12 @@
 package com.forexApp.io;
 
-import com.forexApp.commands.Commands;
+import com.forexApp.service.CommandsService;
 import com.forexApp.model.ForexRecord;
+import com.forexApp.repository.ForexRepository;
 import com.forexApp.service.ForexService;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class DataReader {
@@ -15,8 +14,9 @@ public class DataReader {
     public static final String FILE_NAME = "DAT_MT_EURUSD_M1_202011.csv";
     private final Scanner scanner = new Scanner(System.in);
     private final ForexService forexService = new ForexService();
+    private final ForexRepository forexRepository = new ForexRepository();
     private final Printer printer = new Printer();
-    private final Commands commands = new Commands();
+    private final CommandsService commandsService = new CommandsService();
     private BufferedReader br;
     private String userInput;
 
@@ -47,45 +47,31 @@ public class DataReader {
         while ((singleLine = br.readLine()) != null) {
             String[] content = singleLine.split(",");
             ForexRecord forexRecord = forexService.createForexRecord(content);
-            forexService.getForexRecordList().add(forexRecord);
-        }
-    }
-
-    public void tryAgain() {
-        System.out.println("File: " + userInput + " doesn't exist. \n" +
-                "Existing file: \"DAT_MT_EURUSD_M1_202011.csv\". Type filename again: ");
-    }
-
-    public void getUserChoice() {
-        String userInput = scanner.nextLine().toLowerCase();
-        if (userInput.substring(0, 8).equals("get high")) {
-            System.out.println("you typed get high");
-            LocalDate date = forexService.convertToLocalDate(userInput.substring(9, 19));
-            System.out.println("datum: " + date);
-            commands.getHighByDay(forexService.getForexRecordList(), date);
-
-        } else {
-            System.out.println("you put something different than get high 2020.11.05");
-            System.out.println(userInput.substring(0, 8));
+            forexRepository.getForexRecordsList().add(forexRecord);
         }
     }
 
     public void readUsersCommand(String userInput) {
         String[] userInputArray = userInput.split("\\s+");
         switch (userInputArray[0]) {
-            case "get" -> commands.manageGet(userInputArray);
-            case "volatility" -> commands.manageVolatility(userInputArray);
-            case "most_volatile_day" -> commands.mostVolatileDay();
-            case "most_volatile_hour" -> commands.mostVolatileHour();
-            case "average_minutely_volatility" -> commands.averageMinutelyVolatility();
-            case "average_hourly_volatility" -> commands.averageHourlyVolatility();
-            case "average_daily_volatility" -> commands.averageDailyVolatility();
+            case "get" -> commandsService.manageGet(userInputArray);
+            case "volatility" -> commandsService.manageVolatility(userInputArray);
+            case "most_volatile_day" -> commandsService.mostVolatileDay();
+            case "most_volatile_hour" -> commandsService.mostVolatileHour();
+            case "average_minutely_volatility" -> commandsService.averageMinutelyVolatility();
+            case "average_hourly_volatility" -> commandsService.averageHourlyVolatility();
+            case "average_daily_volatility" -> commandsService.averageDailyVolatility();
             case "commands" -> printer.showCommandsList();
             case "example" -> printer.showExampleCommands();
             case "exit" -> printer.exitCommand();
-            case "test" -> forexService.getForexRecordList().stream().limit(3).forEach(System.out::println);
+            case "test" -> forexRepository.getForexRecordsList().stream().limit(3).forEach(System.out::println);
             default -> printer.showWarningWrongCommand();
         }
+    }
+
+    public void tryAgain() {
+        System.out.println("File: " + userInput + " doesn't exist. \n" +
+                "Existing file: \"DAT_MT_EURUSD_M1_202011.csv\". Type filename again: ");
     }
 }
 

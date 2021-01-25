@@ -4,9 +4,7 @@ import com.forexApp.io.DataReader;
 import com.forexApp.io.FileCreator;
 import com.forexApp.io.Printer;
 import com.forexApp.repository.CommandsRepository;
-
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 public class AppControl {
@@ -22,12 +20,12 @@ public class AppControl {
         fileCreator.createLogDirectory();
         String userInput = "";
         dataReader.readFileName();
-        System.out.println("File exist! Now, type command: ");
+        System.out.println("File exist. Type command: ");
         printer.showMainMenu();
         while (!userInput.equals("exit")) {
             System.out.println("Type command:");
             userInput = sc.nextLine();
-            commandsRepository.getCommandsList().add(userInput);
+            commandsRepository.getCommandsList().add("\n" + userInput);
             dataReader.readUsersCommand(userInput);
         }
         fileCreator.createLogFile();

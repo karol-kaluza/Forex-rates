@@ -25,25 +25,28 @@ public class Printer {
                 exit     - quit program
                 """);
     }
-    public void showExampleCommands(){
+
+    public void showExampleCommands() {
         System.out.println("""
                 get low 2020.11.02 13:55 -> Low=1.162340
                 get 2020.11.02 13:55     -> Open=1.162390, High=1.162400, Low=1.162340, Close=1.162400
                 most_volatile_hour       -> 2020-11-03 21:00
                 """);
     }
-    public void showWarningWrongCommand(){
+
+    public void showWarningWrongCommand() {
         System.out.println("Wrong command, try again");
     }
-    public void exitCommand(){
+
+    public void exitCommand() {
         System.out.println("All commands and results are saved in the file. Good bye! ");
     }
-    public void showMainMenu(){
+
+    public void showMainMenu() {
         System.out.println("""
                 commands - shows list all possible commands
                 example  - shows example command
                 exit     - quit program
                 """);
     }
-
 }
