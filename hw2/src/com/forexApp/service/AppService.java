@@ -7,7 +7,7 @@ import com.forexApp.repository.CommandsRepository;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class AppControl {
+public class AppService {
 
     private final DataReader dataReader = new DataReader();
     private final Printer printer = new Printer();

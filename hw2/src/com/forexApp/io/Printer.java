@@ -26,6 +26,14 @@ public class Printer {
                 """);
     }
 
+    public void showMainMenu() {
+        System.out.println("""
+                commands - shows list all possible commands
+                example  - shows example command
+                exit     - quit program
+                """);
+    }
+
     public void showExampleCommands() {
         System.out.println("""
                 get low 2020.11.02 13:55 -> Low=1.162340
@@ -40,13 +48,5 @@ public class Printer {
 
     public void exitCommand() {
         System.out.println("All commands and results are saved in the file. Good bye! ");
-    }
-
-    public void showMainMenu() {
-        System.out.println("""
-                commands - shows list all possible commands
-                example  - shows example command
-                exit     - quit program
-                """);
     }
 }

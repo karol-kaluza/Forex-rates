@@ -1,12 +1,12 @@
 package com.forexApp;
 
-import com.forexApp.service.AppControl;
+import com.forexApp.service.AppService;
 
 import java.io.IOException;
 
 public class ForexApp {
     public static void main(String[] args) throws IOException {
-        AppControl appControl = new AppControl();
+        AppService appControl = new AppService();
         appControl.start();
     }
 }
