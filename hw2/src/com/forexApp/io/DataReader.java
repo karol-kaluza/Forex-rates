@@ -5,9 +5,11 @@ import com.forexApp.model.ForexRecord;
 import com.forexApp.repository.ForexRepository;
 import com.forexApp.service.ForexService;
 import com.forexApp.service.commands.CommandsVolService;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class DataReader {
@@ -56,17 +58,22 @@ public class DataReader {
 
     public void readUsersCommand(String userInput) {
         String[] userInputArray = userInput.split("\\s+");
-        switch (userInputArray[0]) {
-            case "get" -> commandsGetService.recognizeGetType(userInputArray);
-            case "volatility" -> commandsVolService.mostVolatileDay();
-            case "most_volatile_hour" -> commandsVolService.mostVolatileHour();
-            case "average_minutely_volatility" -> commandsVolService.averageMinutelyVolatility();
-            case "average_hourly_volatility" -> commandsVolService.averageHourlyVolatility();
-            case "average_daily_volatility" -> commandsVolService.averageDailyVolatility();
-            case "commands" -> printer.showCommandsList();
-            case "example" -> printer.showExampleCommands();
-            case "exit" -> printer.exitCommand();
-            default -> printer.showWarningWrongCommand();
+        try {
+            switch (userInputArray[0]) {
+                case "get" -> commandsGetService.recognizeGetType(userInputArray);
+                case "volatility" -> commandsVolService.recognizeVolType(userInputArray);
+                case "most_volatile_day" -> System.out.println(commandsVolService.mostVolatileDay());
+                case "most_volatile_hour" -> System.out.println(commandsVolService.mostVolatileHour());
+                case "average_minutely_volatility" -> System.out.println(commandsVolService.averageMinutelyVolatility());
+                case "average_hourly_volatility" -> System.out.println(commandsVolService.averageHourlyVolatility());
+                case "average_daily_volatility" -> System.out.println(commandsVolService.averageDailyVolatility());
+                case "commands" -> printer.showCommandsList();
+                case "example" -> printer.showExampleCommands();
+                case "exit" -> printer.exitCommand();
+                default -> printer.showWarningWrongCommand();
+            }
+        } catch (NoSuchElementException e) {
+            printer.showWarningNoElements();
         }
     }
 

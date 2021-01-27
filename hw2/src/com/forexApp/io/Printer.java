@@ -43,7 +43,10 @@ public class Printer {
     }
 
     public void showWarningWrongCommand() {
-        System.out.println("Wrong command, try again");
+        System.out.println("Wrong command");
+    }
+    public void showWarningNoElements(){
+        System.out.println("That element doesn't exist in provided file");
     }
 
     public void exitCommand() {

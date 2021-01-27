@@ -25,7 +25,7 @@ public class FileCreator {
         File logFile = new File(fileName);
         boolean isLogFileExists = true;
         while (isLogFileExists) {
-            fileName = "Logs/log_" + counter + "_" + LocalDate.now() + ".txt";
+            fileName = "Logs/" + LocalDate.now() + "_log_" + counter + ".txt";
             counter++;
             logFile = new File(fileName);
             isLogFileExists = logFile.exists();

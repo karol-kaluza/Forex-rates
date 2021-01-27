@@ -1,6 +1,7 @@
 package com.forexApp.service.commands;
 
 import com.forexApp.repository.CommandsRepository;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,31 +20,23 @@ public class CommandsService {
         try {
             parseOnLocalDate(inputDateString);
             return true;
-        } catch (DateTimeParseException | NullPointerException e) { //TODO find correct Exception
+        } catch (DateTimeParseException | NullPointerException e) {
             System.out.println("Invalid date format: " + inputDateString + ". Required format yyyy.MM.dd");
             return false;
         }
     }
 
-    private void validateTime(String inputTimeString) {
+    public boolean validateTime(String inputTimeString) {
         try {
             parseOnLocalTime(inputTimeString);
+            return true;
         } catch (DateTimeParseException | NullPointerException e) {
             System.out.println("Invalid time format: " + inputTimeString);
+            return false;
         }
     }
 
-//    public void validateDate(String stringDate) {
-//        /*TODO sprawdzić lepszą metodę
-//        TODO walidacja daty całkiem na początku przy recognizeGetType()
-//        */
-//        if (stringDate.equals("\\d{4}\\.\\d{2}\\.\\d{2}")) {
-//            parseOnLocalDate(stringDate);
-//        }else {
-//            wrongCommand();
-//        }
-
-    public LocalTime parseOnLocalTime(String stringTime){
+    public LocalTime parseOnLocalTime(String stringTime) {
         return LocalTime.parse(stringTime, timeFormatter);
     }
 
@@ -53,6 +46,10 @@ public class CommandsService {
 
     public void saveResult(BigDecimal result) {
         commandsRepository.getCommandsList().add(result.toString());
+    }
+
+    public void saveResult(String result) {
+        commandsRepository.getCommandsList().add(result);
     }
 
     public void wrongCommand() {

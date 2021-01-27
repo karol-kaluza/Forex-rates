@@ -6,6 +6,7 @@ import com.forexApp.repository.ForexRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,9 +27,23 @@ public class CommandsGetService {
                 }
             }
             case 3 -> {
-                getResultByDay(userCommand);
+                if (commandsService.isValidateDate(userCommand[2])) {
+                    getResultByDay(userCommand);
+                } else {
+                    commandsService.wrongCommand();
+                }
             }
-//          case 4 -> commandsGetService.recognizeTimeType(userCommand);
+            case 4 -> {
+                if (commandsService.isValidateDate(userCommand[2])) {
+                    if (commandsService.validateTime(userCommand[3])) {
+                        getResultByTime(userCommand);
+                    } else {
+                        commandsService.wrongCommand();
+                    }
+                } else {
+                    commandsService.wrongCommand();
+                }
+            }
             default -> commandsService.wrongCommand();
         }
     }
@@ -43,16 +58,6 @@ public class CommandsGetService {
             System.out.println(forexRecord.toString());
         }
     }
-//    public void getAllByDay(String[] usersCommand) { // TODO 1
-//        LocalDate date = commandsService.parseOnLocalDate(usersCommand[1]);
-//        List<ForexRecord> forexRecords = forexRepository.getForexRecordsList().stream()
-//                .filter(forexRecord -> forexRecord.getDate().equals(date))
-//                .collect(Collectors.toList());
-//        for (ForexRecord forexRecord: forexRecords) {
-//            commandsRepository.getCommandsList().add(forexRecord.toString());
-//            System.out.println(forexRecord.toString());
-//        }
-//    }
 
     public void getResultByDay(String[] usersCommand) {
         LocalDate date = commandsService.parseOnLocalDate(usersCommand[2]);
@@ -65,16 +70,6 @@ public class CommandsGetService {
         }
     }
 
-    public BigDecimal getHighByDay(List<ForexRecord> list, LocalDate date) {
-        BigDecimal high = list.stream().
-                filter(forexRecord -> forexRecord.getDate().equals(date))
-                .map(ForexRecord::getHigh)
-                .max(Comparator.naturalOrder())
-                .orElseThrow();
-        commandsService.saveResult(high);
-        return high;
-    }
-
     public BigDecimal getOpenByDay(List<ForexRecord> list, LocalDate date) {
         BigDecimal open = list.stream().
                 filter(forexRecord -> forexRecord.getDate().equals(date))
@@ -83,6 +78,16 @@ public class CommandsGetService {
                 .orElseThrow();
         commandsService.saveResult(open);
         return open;
+    }
+
+    public BigDecimal getHighByDay(List<ForexRecord> list, LocalDate date) {
+        BigDecimal high = list.stream().
+                filter(forexRecord -> forexRecord.getDate().equals(date))
+                .map(ForexRecord::getHigh)
+                .max(Comparator.naturalOrder())
+                .orElseThrow();
+        commandsService.saveResult(high);
+        return high;
     }
 
     public BigDecimal getLowByDay(List<ForexRecord> list, LocalDate date) {
@@ -108,5 +113,67 @@ public class CommandsGetService {
         commandsService.saveResult(close);
         return close;
     }
+
+    public void getResultByTime(String[] usersCommand) {
+        LocalDate date = commandsService.parseOnLocalDate(usersCommand[2]);
+        LocalTime time = commandsService.parseOnLocalTime(usersCommand[3]);
+        switch (usersCommand[1]) {
+            case "open" -> System.out.println(getOpenByTime(forexRepository.getForexRecordsList(), date, time));
+            case "high" -> System.out.println(getHighByTime(forexRepository.getForexRecordsList(), date, time));
+            case "low" -> System.out.println(getLowByTime(forexRepository.getForexRecordsList(), date, time));
+            case "close" -> System.out.println(getCloseByTime(forexRepository.getForexRecordsList(), date, time));
+            default -> commandsService.wrongCommand();
+        }
+    }
+
+    public BigDecimal getOpenByTime(List<ForexRecord> list, LocalDate date, LocalTime time) {
+        BigDecimal open = list.stream()
+                .filter(forexRecord -> forexRecord.getDate().equals(date))
+                .filter(forexRecord -> forexRecord.getTime().equals(time))
+                .findFirst()
+                .map(ForexRecord::getOpen)
+                .orElseThrow();
+        commandsService.saveResult(open);
+        return open;
+    }
+
+    public BigDecimal getHighByTime(List<ForexRecord> list, LocalDate date, LocalTime time) {
+        BigDecimal high = list.stream()
+                .filter(forexRecord -> forexRecord.getDate().equals(date))
+                .filter(forexRecord -> forexRecord.getTime().equals(time))
+                .map(ForexRecord::getHigh)
+                .max(Comparator.naturalOrder())
+                .orElseThrow();
+        commandsService.saveResult(high);
+        return high;
+    }
+
+    public BigDecimal getLowByTime(List<ForexRecord> list, LocalDate date, LocalTime time) {
+        BigDecimal low = list.stream()
+                .filter(forexRecord -> forexRecord.getDate().equals(date))
+                .filter(forexRecord -> forexRecord.getTime().equals(time))
+                .map(ForexRecord::getLow)
+                .min(Comparator.naturalOrder())
+                .orElseThrow();
+        commandsService.saveResult(low);
+        return low;
+    }
+
+    public BigDecimal getCloseByTime(List<ForexRecord> list, LocalDate date, LocalTime time) {
+        long count = list.stream()
+                .filter(forexRecord -> forexRecord.getDate().equals(date))
+                .filter(forexRecord -> forexRecord.getTime().equals(time))
+                .count();
+        BigDecimal close = list.stream()
+                .filter(forexRecord -> forexRecord.getDate().equals(date))
+                .filter(forexRecord -> forexRecord.getTime().equals(time))
+                .skip(count - 1)
+                .findFirst()
+                .map(ForexRecord::getClose)
+                .orElseThrow();
+        commandsService.saveResult(close);
+        return close;
+    }
+
 
 }
