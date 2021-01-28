@@ -16,7 +16,6 @@ public class AppService {
     private final FileCreator fileCreator = new FileCreator();
     private final CommandsRepository commandsRepository = new CommandsRepository();
 
-
     public void start() throws IOException {
         fileCreator.createLogDirectory();
         String userInput = "";

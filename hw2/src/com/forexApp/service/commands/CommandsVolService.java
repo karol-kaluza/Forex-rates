@@ -88,6 +88,22 @@ public class CommandsVolService {
         return maxVolatileHour;
     }
 
+    public BigDecimal averageDailyVolatility() {
+        Map<String, List<ForexRecord>> rangeDaily = forexRepository.getForexRecordsList().stream()
+                .collect(Collectors.groupingBy(x -> x.getDate().toString()));
+        BigDecimal avgDaily = calculateAverage(rangeDaily);
+        utils.saveResult(avgDaily);
+        return avgDaily;
+    }
+
+    public BigDecimal averageHourlyVolatility() {
+        Map<String, List<ForexRecord>> rangeHourly = forexRepository.getForexRecordsList().stream()
+                .collect(Collectors.groupingBy(x -> x.getDate().toString() + " " + x.getTime().getHour()));
+        BigDecimal avgHourly = calculateAverage(rangeHourly);
+        utils.saveResult(avgHourly);
+        return avgHourly;
+    }
+
     public BigDecimal averageMinutelyVolatility() {
         RoundingMode rounding = RoundingMode.HALF_UP;
         BigDecimal sum = forexRepository.getForexRecordsList().stream()
@@ -98,34 +114,16 @@ public class CommandsVolService {
         return avgMin;
     }
 
-    public BigDecimal averageHourlyVolatility() {
+    private BigDecimal calculateAverage(Map<String, List<ForexRecord>> rangeMap) {
         RoundingMode rounding = RoundingMode.HALF_UP;
         BigDecimal sum = BigDecimal.ZERO;
-        Map<String, List<ForexRecord>> rangeDaily = forexRepository.getForexRecordsList().stream()
-                .collect(Collectors.groupingBy(x -> x.getDate().toString() + " " + x.getTime().getHour()));
-        for (Map.Entry<String, List<ForexRecord>> listEntry : rangeDaily.entrySet()) {
+        for (Map.Entry<String, List<ForexRecord>> listEntry : rangeMap.entrySet()) {
             sum = listEntry.getValue().stream()
                     .map(x -> x.getHigh().subtract(x.getLow()))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
         }
-        BigDecimal avgHourly = sum.divide(new BigDecimal(forexRepository.getForexRecordsList().size()), rounding);
-        utils.saveResult(avgHourly);
-        return avgHourly;
-    }
-
-    public BigDecimal averageDailyVolatility() {
-        RoundingMode rounding = RoundingMode.HALF_UP;
-        BigDecimal sum = BigDecimal.ZERO;
-        Map<String, List<ForexRecord>> rangeDaily = forexRepository.getForexRecordsList().stream()
-                .collect(Collectors.groupingBy(x -> x.getDate().toString()));
-        for (Map.Entry<String, List<ForexRecord>> listEntry : rangeDaily.entrySet()) {
-            sum = listEntry.getValue().stream()
-                    .map(x -> x.getHigh().subtract(x.getLow()))
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-        }
-        BigDecimal avgDaily = sum.divide(new BigDecimal(forexRepository.getForexRecordsList().size()), rounding);
-        utils.saveResult(avgDaily);
-        return avgDaily;
+        BigDecimal avg = sum.divide(new BigDecimal(forexRepository.getForexRecordsList().size()), rounding);
+        return avg;
     }
 }
 

@@ -39,7 +39,7 @@ public class CommandsGetService {
         }
     }
 
-    public void getResultByDay(String[] usersCommand) {
+    private void getResultByDay(String[] usersCommand) {
         LocalDate date;
         if (utils.IsContainDateAtIndexOne(usersCommand[1])) {
             getAllResultsByTime(usersCommand);
@@ -59,17 +59,17 @@ public class CommandsGetService {
         }
     }
 
-    public void getAllResultsByDay(String[] usersCommand) {
+    private void getAllResultsByDay(String[] usersCommand) {
         List<ForexRecord> forexRecords = utils.filterByDate(usersCommand[1]);
         utils.printAndSaveEachRecord(forexRecords);
     }
 
-    public void getAllResultsByTime(String[] usersCommand) {
+    private void getAllResultsByTime(String[] usersCommand) {
         List<ForexRecord> forexRecords = utils.filterByTime(usersCommand[1], usersCommand[2]);
         utils.printAndSaveEachRecord(forexRecords);
     }
 
-    public BigDecimal getOpenByDay(List<ForexRecord> list, LocalDate date) {
+    private BigDecimal getOpenByDay(List<ForexRecord> list, LocalDate date) {
         BigDecimal open = utils.filterByDate(date).stream()
                 .findFirst()
                 .map(ForexRecord::getOpen)
@@ -96,7 +96,7 @@ public class CommandsGetService {
         return low;
     }
 
-    public BigDecimal getCloseByDay(List<ForexRecord> list, LocalDate date) {
+    private BigDecimal getCloseByDay(List<ForexRecord> list, LocalDate date) {
         long count = utils.filterByDate(date).stream().count();
         BigDecimal close = utils.filterByDate(date).stream()
                 .skip(count - 1)
@@ -107,7 +107,7 @@ public class CommandsGetService {
         return close;
     }
 
-    public void getResultByTime(String[] usersCommand) {
+    private void getResultByTime(String[] usersCommand) {
         LocalDate date = utils.parseOnLocalDate(usersCommand[2]);
         LocalTime time = utils.parseOnLocalTime(usersCommand[3]);
         switch (usersCommand[1]) {
@@ -119,7 +119,7 @@ public class CommandsGetService {
         }
     }
 
-    public BigDecimal getOpenByTime(List<ForexRecord> list, LocalDate date, LocalTime time) {
+    private BigDecimal getOpenByTime(List<ForexRecord> list, LocalDate date, LocalTime time) {
         BigDecimal open = utils.filterByTime(date, time).stream()
                 .findFirst()
                 .map(ForexRecord::getOpen)
@@ -146,7 +146,7 @@ public class CommandsGetService {
         return low;
     }
 
-    public BigDecimal getCloseByTime(List<ForexRecord> list, LocalDate date, LocalTime time) {
+    private BigDecimal getCloseByTime(List<ForexRecord> list, LocalDate date, LocalTime time) {
         long count = utils.filterByTime(date, time).stream().count();
         BigDecimal close = utils.filterByTime(date, time).stream()
                 .skip(count - 1)

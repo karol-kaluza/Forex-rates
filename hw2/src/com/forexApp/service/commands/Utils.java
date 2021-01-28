@@ -78,6 +78,7 @@ public class Utils {
                 .filter(forexRecord -> forexRecord.getDate().equals(date))
                 .collect(Collectors.toList());
     }
+
     public List<ForexRecord> filterByDate(LocalDate date) {
         return forexRepository.getForexRecordsList().stream()
                 .filter(forexRecord -> forexRecord.getDate().equals(date))
@@ -92,6 +93,7 @@ public class Utils {
                 .filter(forexRecord -> forexRecord.getTime().equals(time))
                 .collect(Collectors.toList());
     }
+
     public List<ForexRecord> filterByTime(LocalDate date, LocalTime time) {
         return forexRepository.getForexRecordsList().stream()
                 .filter(forexRecord -> forexRecord.getDate().equals(date))
