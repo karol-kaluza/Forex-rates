@@ -1,6 +1,7 @@
 package com.forexApp.repository;
 
 import com.forexApp.model.ForexRecord;
+
 import java.util.ArrayList;
 import java.util.List;
 

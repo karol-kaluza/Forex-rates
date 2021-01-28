@@ -12,7 +12,7 @@ public class LogWriter {
         FileWriter fileWriter = new FileWriter(file);
         BufferedWriter bfWriter = new BufferedWriter(fileWriter);
 
-        for (String log: listLogs){
+        for (String log : listLogs) {
             bfWriter.newLine();
             bfWriter.write(log);
         }

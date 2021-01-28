@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -16,48 +15,48 @@ import java.util.stream.Collectors;
 
 public class CommandsVolService {
 
-    private final CommandsService commandsService = new CommandsService();
+    private final Utils utils = new Utils();
     private final ForexRepository forexRepository = new ForexRepository();
     private final CommandsGetService commandsGet = new CommandsGetService();
 
     public void recognizeVolType(String[] userCommand) {
         switch (userCommand.length) {
             case 2 -> {
-                if (commandsService.isValidateDate(userCommand[1])) {
+                if (utils.isValidateDate(userCommand[1])) {
                     System.out.println(volatilityByDate(userCommand));
                 } else {
-                    commandsService.wrongCommand();
+                    utils.wrongCommand();
                 }
             }
             case 3 -> {
-                if (commandsService.isValidateDate(userCommand[1])) {
-                    if (commandsService.validateTime(userCommand[2])) {
+                if (utils.isValidateDate(userCommand[1])) {
+                    if (utils.validateTime(userCommand[2])) {
                         System.out.println(volatilityByTime(userCommand));
                     } else {
-                        commandsService.wrongCommand();
+                        utils.wrongCommand();
                     }
                 } else {
-                    commandsService.wrongCommand();
+                    utils.wrongCommand();
                 }
             }
-            default -> commandsService.wrongCommand();
+            default -> utils.wrongCommand();
         }
     }
 
     private BigDecimal volatilityByDate(String[] usersCommand) {
-        LocalDate date = commandsService.parseOnLocalDate(usersCommand[1]);
+        LocalDate date = utils.parseOnLocalDate(usersCommand[1]);
         BigDecimal volatilityByDay = commandsGet.getHighByDay(forexRepository.getForexRecordsList(), date)
                 .subtract(commandsGet.getLowByDay(forexRepository.getForexRecordsList(), date));
-        commandsService.saveResult(volatilityByDay);
+        utils.saveResult(volatilityByDay);
         return volatilityByDay;
     }
 
     private BigDecimal volatilityByTime(String[] usersCommand) {
-        LocalDate date = commandsService.parseOnLocalDate(usersCommand[1]);
-        LocalTime time = commandsService.parseOnLocalTime(usersCommand[2]);
+        LocalDate date = utils.parseOnLocalDate(usersCommand[1]);
+        LocalTime time = utils.parseOnLocalTime(usersCommand[2]);
         BigDecimal volatilityByTime = commandsGet.getHighByTime(forexRepository.getForexRecordsList(), date, time)
                 .subtract(commandsGet.getLowByTime(forexRepository.getForexRecordsList(), date, time));
-        commandsService.saveResult(volatilityByTime);
+        utils.saveResult(volatilityByTime);
         return volatilityByTime;
     }
 
@@ -65,7 +64,7 @@ public class CommandsVolService {
         ForexRecord forexRecord = Collections.max(forexRepository.getForexRecordsList(),
                 Comparator.comparing(x -> x.getHigh().subtract(x.getLow())));
         LocalDate maxVolatileDay = forexRecord.getDate();
-        commandsService.saveResult(maxVolatileDay.toString());
+        utils.saveResult(maxVolatileDay.toString());
         return maxVolatileDay;
     }
 
@@ -85,7 +84,7 @@ public class CommandsVolService {
                 maxVolatileHour = listEntry.getKey();
             }
         }
-        commandsService.saveResult(maxVolatileHour);
+        utils.saveResult(maxVolatileHour);
         return maxVolatileHour;
     }
 
@@ -95,7 +94,7 @@ public class CommandsVolService {
                 .map(x -> x.getHigh().subtract(x.getLow()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal avgMin = sum.divide(new BigDecimal(forexRepository.getForexRecordsList().size()), rounding);
-        commandsService.saveResult(avgMin);
+        utils.saveResult(avgMin);
         return avgMin;
     }
 
@@ -110,7 +109,7 @@ public class CommandsVolService {
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
         }
         BigDecimal avgHourly = sum.divide(new BigDecimal(forexRepository.getForexRecordsList().size()), rounding);
-        commandsService.saveResult(avgHourly);
+        utils.saveResult(avgHourly);
         return avgHourly;
     }
 
@@ -125,7 +124,7 @@ public class CommandsVolService {
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
         }
         BigDecimal avgDaily = sum.divide(new BigDecimal(forexRepository.getForexRecordsList().size()), rounding);
-        commandsService.saveResult(avgDaily);
+        utils.saveResult(avgDaily);
         return avgDaily;
     }
 }

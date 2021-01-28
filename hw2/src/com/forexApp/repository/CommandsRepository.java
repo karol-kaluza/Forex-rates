@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CommandsRepository {
 
-    private static final List<String>commandsList = new ArrayList<>();
+    private static final List<String> commandsList = new ArrayList<>();
 
     public List<String> getCommandsList() {
         return commandsList;

@@ -1,6 +1,7 @@
 package com.forexApp.io;
 
 import com.forexApp.repository.CommandsRepository;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -31,7 +32,7 @@ public class FileCreator {
             isLogFileExists = logFile.exists();
         }
         logFile.createNewFile();
-        logWriter.saveLog(logFile, commandsRepository.getCommandsList() );
+        logWriter.saveLog(logFile, commandsRepository.getCommandsList());
     }
 }
 

@@ -45,7 +45,8 @@ public class Printer {
     public void showWarningWrongCommand() {
         System.out.println("Wrong command");
     }
-    public void showWarningNoElements(){
+
+    public void showWarningNoElements() {
         System.out.println("That element doesn't exist in provided file");
     }
 

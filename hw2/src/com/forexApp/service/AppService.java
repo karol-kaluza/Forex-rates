@@ -4,6 +4,7 @@ import com.forexApp.io.DataReader;
 import com.forexApp.io.FileCreator;
 import com.forexApp.io.Printer;
 import com.forexApp.repository.CommandsRepository;
+
 import java.io.IOException;
 import java.util.Scanner;
 
