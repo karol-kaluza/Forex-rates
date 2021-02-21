@@ -1,18 +1,45 @@
 package com.infoshare.model;
 
+import org.hibernate.annotations.Type;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
+import java.util.UUID;
 
+@Entity
 public class ForexRecord {
 
+    @Id
+    @GeneratedValue
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    private UUID id;
+
     private LocalDate date;
+
     private LocalTime time;
+    @Column (precision = 6, scale = 5)
     private BigDecimal Open;
+    @Column (precision = 6, scale = 5)
     private BigDecimal High;
+    @Column (precision = 6, scale = 5)
     private BigDecimal Low;
+    @Column (precision = 6, scale = 5)
     private BigDecimal Close;
+
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public LocalDate getDate() {
         return date;
